@@ -72,10 +72,8 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {[weak self] in
-            if self == nil {
-                return
-            }
-            self!.showNextQuestionOrResults()
+            guard let self = self else { return }
+            self.showNextQuestionOrResults()
         }
         
     }
@@ -126,15 +124,13 @@ final class MovieQuizViewController: UIViewController {
             preferredStyle: .alert)
         
         let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
-            if self == nil {
-                return
-            }
-            self!.currentQuestionIndex = 0
-            self!.correctAnswers = 0
+            guard let self = self else { return }
+            self.currentQuestionIndex = 0
+            self.correctAnswers = 0
             
-            let firstQuestion = self!.questions[self!.currentQuestionIndex]
-            let viewModel = self!.convert(model: firstQuestion)
-            self!.show(quiz: viewModel)
+            let firstQuestion = self.questions[self.currentQuestionIndex]
+            let viewModel = self.convert(model: firstQuestion)
+            self.show(quiz: viewModel)
         }
         
         alert.addAction(action)
