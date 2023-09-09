@@ -22,6 +22,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
+        imageView.layer.cornerRadius = 15
         statisticService = StatisticServiceImplementation()
         questionFactory = QuestionFactory(delegate: self)
         questionFactory?.requestNextQuestion()
@@ -80,9 +81,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
             let alertData = AlertModel(
                 title: "Этот раунд окончен!",
                 message: getResultText(correctAnswers: correctAnswers, totalAnswers: questionsAmount),
-                buttonText: "Сыграть ещё раз"){
-                    print("Alert complete...")
-                }
+                buttonText: "Сыграть ещё раз"){}
             alertPresenter?.show(alertData: alertData)
         } else {
             btnNoButton.isEnabled = true
