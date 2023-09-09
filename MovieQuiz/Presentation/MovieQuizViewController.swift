@@ -3,11 +3,12 @@ import UIKit
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, AlertPresenterDelegate {
     
     private var currentQuestionIndex = 0
-    private var correctAnswers = 0
+    private var correctAnswers: Int = 0
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactoryProtocol? 
     private var currentQuestion: QuizQuestion?
     private var alertPresenter: AlertPresenter?
+    private var statisticService: StatisticService?
     @IBOutlet private weak var counterLabel: UILabel!
     @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
@@ -31,6 +32,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     }
     
     override func viewDidLoad() {
+        
+        print(NSHomeDirectory())
+
+        statisticService = StatisticServiceImplementation()
         questionFactory = QuestionFactory(delegate: self)
         questionFactory?.requestNextQuestion()
         alertPresenter = AlertPresenter(delegate: self){ [weak self] _ in
@@ -61,10 +66,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
-            let text = "Ваш результат: \(correctAnswers)/10"
+            statisticService?.store(correct: correctAnswers, total: questionsAmount)
+            
             let alertData = AlertModel(
                 title: "Этот раунд окончен!",
-                message: text,
+                message: getResultText(correctAnswers: correctAnswers, totalAnswers: questionsAmount),
                 buttonText: "Сыграть ещё раз"){
                     print("Alert complete...")
                 }
@@ -75,7 +81,27 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
             questionFactory?.requestNextQuestion()
         }
     }
-
+    
+    private func getResultText(correctAnswers: Int, totalAnswers: Int) -> String{
+        
+        guard let statisticService = statisticService else {
+            return ""
+        }
+        
+        let bestGame = statisticService.bestGame;
+        let bestGameDateString = bestGame.date.dateTimeString
+        let accuracyString = String(format: "%.2f", statisticService.totalAccuracy)
+        
+        let text =
+            """
+            Ваш результат: \(correctAnswers)/\(totalAnswers)
+            Количество сыгранных квизов: \(statisticService.gamesCount)
+            Рекорд: \(bestGame.correct)/\(bestGame.total) \(bestGameDateString)
+            Средняя точность: \(accuracyString)%
+            """
+        
+        return text
+    }
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         
         return QuizStepViewModel(
