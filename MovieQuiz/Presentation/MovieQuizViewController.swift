@@ -2,17 +2,37 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, AlertPresenterDelegate {
     
+    // MARK: - IB Outlets
+    @IBOutlet private weak var counterLabel: UILabel!
+    @IBOutlet private weak var textLabel: UILabel!
+    
+    @IBOutlet private weak var imageView: UIImageView!
+
+    // MARK: - Private Properties
     private var currentQuestionIndex = 0
     private var correctAnswers: Int = 0
     private let questionsAmount: Int = 10
-    private var questionFactory: QuestionFactoryProtocol? 
+    private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     private var alertPresenter: AlertPresenter?
     private var statisticService: StatisticService?
-    @IBOutlet private weak var counterLabel: UILabel!
-    @IBOutlet private weak var textLabel: UILabel!
-    @IBOutlet private weak var imageView: UIImageView!
     
+    // MARK: - View Life Cycles
+    override func viewDidLoad() {
+        statisticService = StatisticServiceImplementation()
+        questionFactory = QuestionFactory(delegate: self)
+        questionFactory?.requestNextQuestion()
+        alertPresenter = AlertPresenter(delegate: self){ [weak self] _ in
+            guard let self = self else { return }
+            self.currentQuestionIndex = 0
+            self.correctAnswers = 0
+            
+            questionFactory?.requestNextQuestion()
+        }
+        super.viewDidLoad()
+    }
+    
+    // MARK: - IB Actions
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         guard let currentQuestion = currentQuestion else {
             return
@@ -31,23 +51,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
-    override func viewDidLoad() {
-        
-        print(NSHomeDirectory())
-
-        statisticService = StatisticServiceImplementation()
-        questionFactory = QuestionFactory(delegate: self)
-        questionFactory?.requestNextQuestion()
-        alertPresenter = AlertPresenter(delegate: self){ [weak self] _ in
-            guard let self = self else { return }
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
-            
-            questionFactory?.requestNextQuestion()
-        }
-        super.viewDidLoad()
-    }
-    
+    // MARK: - Private Methods
     private func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
             correctAnswers += 1
@@ -61,7 +65,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
             guard let self = self else { return }
             self.showNextQuestionOrResults()
         }
-        
     }
     
     private func showNextQuestionOrResults() {
@@ -83,7 +86,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     }
     
     private func getResultText(correctAnswers: Int, totalAnswers: Int) -> String{
-        
         guard let statisticService = statisticService else {
             return ""
         }
@@ -102,8 +104,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         
         return text
     }
+    
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        
         return QuizStepViewModel(
             image: UIImage(named: model.image)!,
             question: model.text,
