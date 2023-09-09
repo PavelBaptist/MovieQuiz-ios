@@ -6,6 +6,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     @IBOutlet private weak var counterLabel: UILabel!
     @IBOutlet private weak var textLabel: UILabel!
     
+    @IBOutlet private weak var btnNoButton: UIButton!
+    @IBOutlet private weak var btnYesButton: UIButton!
+    
     @IBOutlet private weak var imageView: UIImageView!
 
     // MARK: - Private Properties
@@ -57,6 +60,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
             correctAnswers += 1
         }
         
+        btnNoButton.isEnabled = false
+        btnYesButton.isEnabled = false
+        
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
@@ -79,6 +85,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
                 }
             alertPresenter?.show(alertData: alertData)
         } else {
+            btnNoButton.isEnabled = true
+            btnYesButton.isEnabled = true
+            
             currentQuestionIndex += 1
             
             questionFactory?.requestNextQuestion()
@@ -122,6 +131,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 0
         imageView.layer.borderColor = nil
+        
+        btnNoButton.isEnabled = true
+        btnYesButton.isEnabled = true
     }
     
     // MARK: - QuestionFactoryDelegate

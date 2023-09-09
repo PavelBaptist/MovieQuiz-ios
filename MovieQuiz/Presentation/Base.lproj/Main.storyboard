@@ -124,6 +124,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnNoButton" destination="Vr2-yD-PJ8" id="DoI-V5-cNq"/>
+                        <outlet property="btnYesButton" destination="q2O-hw-PAH" id="3Ya-YQ-QLx"/>
                         <outlet property="counterLabel" destination="Nc2-jn-8mf" id="Os8-Mr-EZg"/>
                         <outlet property="imageView" destination="9Dp-HQ-Aj0" id="SXE-zn-J7r"/>
                         <outlet property="textLabel" destination="k70-LD-Hnk" id="Jww-qT-uts"/>
