@@ -5,6 +5,7 @@ final class AlertPresenter {
     
     weak var delegate: AlertPresenterDelegate?
     let alertHandler: (UIAlertAction) -> Void
+   
     init(delegate: AlertPresenterDelegate? = nil, alertHandler: @escaping (UIAlertAction) -> Void) {
         self.delegate = delegate
         self.alertHandler = alertHandler
