@@ -18,7 +18,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     private var correctAnswers: Int = 0
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactoryProtocol?
-    private var currentQuestion: QuizQuestion?
+    private var currentQuestion: QuizQuestionModel?
     private var alertPresenter: AlertPresenter?
     private var statisticService: StatisticService?
     
@@ -142,7 +142,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         return text
     }
     
-    private func convert(model: QuizQuestion) -> QuizStepViewModel {
+    private func convert(model: QuizQuestionModel) -> QuizStepViewModel {
         return QuizStepViewModel(
             image: UIImage(named: model.image)!,
             question: model.text,
@@ -166,7 +166,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     
     // MARK: - QuestionFactoryDelegate
 
-    func didReceiveNextQuestion(question: QuizQuestion?) {
+    func didReceiveNextQuestion(question: QuizQuestionModel?) {
         guard let question = question else {
             return
         }

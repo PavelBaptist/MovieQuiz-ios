@@ -1,6 +1,6 @@
 import Foundation
 
-struct QuizQuestion {
+struct QuizQuestionModel {
     let image: String
     let text: String
     let correctAnswer: Bool
