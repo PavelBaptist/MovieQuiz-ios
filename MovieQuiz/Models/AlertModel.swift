@@ -1,6 +1,6 @@
 import Foundation
 
-class AlertModel{
+final class AlertModel{
     let title: String
     let message: String
     let buttonText: String

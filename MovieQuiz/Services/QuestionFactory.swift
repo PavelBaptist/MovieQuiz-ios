@@ -1,6 +1,6 @@
 import Foundation
 
-class QuestionFactory: QuestionFactoryProtocol {
+final class QuestionFactory: QuestionFactoryProtocol {
 
     private let questions: [QuizQuestionModel] = [
         QuizQuestionModel(image: "The Godfather",
