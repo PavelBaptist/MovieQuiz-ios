@@ -24,9 +24,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     
     // MARK: - View Life Cycles
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         imageView.layer.cornerRadius = 15
         statisticService = StatisticServiceImplementation()
-        questionFactory = QuestionFactory(delegate: self)
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         questionFactory?.requestNextQuestion()
         alertPresenter = AlertPresenter(delegate: self){ [weak self] _ in
             guard let self = self else { return }
@@ -35,7 +37,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
             
             questionFactory?.requestNextQuestion()
         }
-        super.viewDidLoad()
+        showLoadingIndicator()
+        questionFactory?.loadData()        
     }
     
     // MARK: - IB Actions
@@ -144,7 +147,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     
     private func convert(model: QuizQuestionModel) -> QuizStepViewModel {
         return QuizStepViewModel(
-            image: UIImage(named: model.image)!,
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
         )
@@ -178,4 +181,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         }
     }
     
+    func didLoadDataFromServer() {
+        activityIndicator.isHidden = true
+        questionFactory?.requestNextQuestion()
+    }
+
+    func didFailToLoadData(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
+    }
 }
