@@ -27,18 +27,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         super.viewDidLoad()
 
         imageView.layer.cornerRadius = 15
+        imageView.backgroundColor = .gray
         statisticService = StatisticServiceImplementation()
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
-        questionFactory?.requestNextQuestion()
-        alertPresenter = AlertPresenter(delegate: self){ [weak self] _ in
-            guard let self = self else { return }
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
-            
-            questionFactory?.requestNextQuestion()
-        }
+        alertPresenter = AlertPresenter(delegate: self)
         showLoadingIndicator()
-        questionFactory?.loadData()        
+        questionFactory?.loadData()
     }
     
     // MARK: - IB Actions
@@ -83,14 +77,16 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         hideLoadingIndicator()
         
         let alertData = AlertModel(title: "Ошибка",
-                               message: message,
-                               buttonText: "Попробовать еще раз") { [weak self] in
+                                   message: message,
+                                   buttonText: "Попробовать еще раз",
+                                   completion: nil) {[weak self] _ in
             guard let self = self else { return }
             
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             
-            self.questionFactory?.requestNextQuestion()
+            self.showLoadingIndicator()
+            self.questionFactory?.loadData()
         }
         
         alertPresenter?.show(alertData: alertData)
@@ -113,7 +109,14 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
             let alertData = AlertModel(
                 title: "Этот раунд окончен!",
                 message: getResultText(correctAnswers: correctAnswers, totalAnswers: questionsAmount),
-                buttonText: "Сыграть ещё раз"){}
+                buttonText: "Сыграть ещё раз",
+                completion: nil){ [weak self] _ in
+                    guard let self = self else { return }
+                    self.currentQuestionIndex = 0
+                    self.correctAnswers = 0
+                    
+                    questionFactory?.requestNextQuestion()
+                }
             alertPresenter?.show(alertData: alertData)
         } else {
             btnNoButton.isEnabled = true
