@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
@@ -41,12 +41,14 @@ final class MovieQuizViewController: UIViewController {
 
     func show(quiz result: QuizResultsViewModel) {
         let message = presenter.makeResultsMessage()
-
+        
         let alert = UIAlertController(
             title: result.title,
             message: message,
             preferredStyle: .alert)
-
+            
+            alert.view.accessibilityIdentifier = "Alert results"
+            
             let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
                 guard let self = self else { return }
 
