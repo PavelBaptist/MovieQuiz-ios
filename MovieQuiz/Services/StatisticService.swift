@@ -3,7 +3,7 @@ import Foundation
 protocol StatisticService{
     var totalAccuracy: Double { get }
     var gamesCount: Int { get }
-    var bestGame: GameRecord { get }
+    var bestGame: GameRecordModel { get }
     
     func store(correct count: Int, total amount: Int)
 }
@@ -37,11 +37,11 @@ final class StatisticServiceImplementation: StatisticService{
         
     }
     
-    var bestGame: GameRecord {
+    var bestGame: GameRecordModel {
         get {
             guard let data = userDefaults.data(forKey: Keys.bestGame.rawValue),
-                let record = try? JSONDecoder().decode(GameRecord.self, from: data) else {
-                return GameRecord(correct: 0, total: 0, date: Date())
+                let record = try? JSONDecoder().decode(GameRecordModel.self, from: data) else {
+                return GameRecordModel(correct: 0, total: 0, date: Date())
             }
             
             return record
@@ -60,7 +60,7 @@ final class StatisticServiceImplementation: StatisticService{
     func store(correct count: Int, total amount: Int) {
         
         // best game
-        let newGame = GameRecord(correct: count, total: amount, date: Date())
+        let newGame = GameRecordModel(correct: count, total: amount, date: Date())
         if (newGame > bestGame) {
             bestGame = newGame
         }
@@ -77,16 +77,6 @@ final class StatisticServiceImplementation: StatisticService{
         }
     }
     
-}
-
-struct GameRecord: Codable, Comparable {
-    static func < (lhs: GameRecord, rhs: GameRecord) -> Bool {
-        return lhs.correct < rhs.correct
-    }
-    
-    let correct: Int
-    let total: Int
-    let date: Date
 }
 
 

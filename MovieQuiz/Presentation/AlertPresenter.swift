@@ -1,13 +1,12 @@
 import Foundation
 import UIKit
 
-class AlertPresenter {
+final class AlertPresenter {
     
     weak var delegate: AlertPresenterDelegate?
-    let alertHandler: (UIAlertAction) -> Void
-    init(delegate: AlertPresenterDelegate? = nil, alertHandler: @escaping (UIAlertAction) -> Void) {
+   
+    init(delegate: AlertPresenterDelegate?) {
         self.delegate = delegate
-        self.alertHandler = alertHandler
     }
     
     func show(alertData: AlertModel) {
@@ -20,7 +19,7 @@ class AlertPresenter {
             message: alertData.message,
             preferredStyle: .alert)
         
-        let action = UIAlertAction(title: alertData.buttonText, style: .default, handler: alertHandler)
+        let action = UIAlertAction(title: alertData.buttonText, style: .default, handler: alertData.handler)
         
         alert.addAction(action)
         
