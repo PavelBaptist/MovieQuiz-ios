@@ -3,7 +3,9 @@ import UIKit
 final class MovieQuizPresenter {
     
     private var currentQuestionIndex: Int = 0
-
+    var correctAnswers: Int = 0
+    var questionFactory: QuestionFactoryProtocol?
+    
     var currentQuestion: QuizQuestion?
     weak var viewController: MovieQuizViewController?
     let questionsAmount: Int = 10
@@ -28,23 +30,48 @@ final class MovieQuizPresenter {
     }
     
     func yesButtonClicked() {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-
-        let givenAnswer = true
-
-        viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        didAnswer(isYes: true)
     }
     
     func noButtonClicked() {
-            guard let currentQuestion = currentQuestion else {
-                return
-            }
+        didAnswer(isYes: false)
+    }
+    
+    private func didAnswer(isYes: Bool) {
+        guard let currentQuestion = currentQuestion else {
+            return
+        }
+        
+        let givenAnswer = isYes
+        
+        viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    }
+    
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question = question else {
+            return
+        }
+        
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        DispatchQueue.main.async { [weak self] in
+            self?.viewController?.show(quiz: viewModel)
+        }
+    }
+    
+    func showNextQuestionOrResults() {
+        if self.isLastQuestion() {
+            let text = "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!"
             
-            let givenAnswer = false
-            
-            viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+            let viewModel = QuizResultsViewModel(
+                title: "Этот раунд окончен!",
+                text: text,
+                buttonText: "Сыграть ещё раз")
+            viewController?.show(quiz: viewModel)
+        } else {
+            self.switchToNextQuestion()
+            questionFactory?.requestNextQuestion()
+        }
     }
     
 }
