@@ -13,6 +13,10 @@ class QuestionFactory: QuestionFactoryProtocol {
         self.delegate = delegate
     }
     
+    func dataIsLoaded() -> Bool{
+        return movies.count > 0
+    }
+    
     func loadData() {
         moviesLoader.loadMovies { result in
             DispatchQueue.main.async { [weak self] in
@@ -22,7 +26,7 @@ class QuestionFactory: QuestionFactoryProtocol {
                     self.movies = mostPopularMovies.items
                     self.delegate?.didLoadDataFromServer()
                 case .failure(let error):
-                    self.delegate?.didFailToLoadData(with: error)
+                    self.delegate?.didFailToLoadData(text: error.localizedDescription)
                 }
             }
         }
@@ -42,8 +46,10 @@ class QuestionFactory: QuestionFactoryProtocol {
             
             do {
                 imageData = try Data(contentsOf: movie.imageURL)
-            } catch {
-                print("Failed to load image")
+            } catch (let error){
+                DispatchQueue.main.async {
+                    self.delegate?.didFailToLoadData(text: error.localizedDescription)
+               }
             }
             
             let rating = Float(movie.rating) ?? 0

@@ -122,11 +122,13 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         let alert = AlertModel(
             title: "Ошибка", message: message, buttonText: "Попробовать ещё раз") { [weak self] in
                 guard let self = self else { return }
-                
-                self.restartGame()
+                if questionFactory?.dataIsLoaded() ?? false{
+                    restartGame()
+                } else {
+                    questionFactory?.loadData()
+                }
             }
         alertPresenter.show(model: alert)
-        
     }
     
     private func makeResultsMessage() -> String {
@@ -152,9 +154,8 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         questionFactory?.requestNextQuestion()
     }
 
-    func didFailToLoadData(with error: Error) {
-        let message = error.localizedDescription
-        showNetworkErrorAlert(message: message)
+    func didFailToLoadData(text: String) {
+        showNetworkErrorAlert(message: text)
     }
 
     func didReceiveNextQuestion(question: QuizQuestion?) {
