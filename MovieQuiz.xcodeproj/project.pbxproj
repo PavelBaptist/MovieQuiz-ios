@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		655E49EC2AC4CED600825223 /* MovieQuizViewControllerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655E49EB2AC4CED600825223 /* MovieQuizViewControllerMock.swift */; };
 		65905A4D2ABEB53D0071D1D3 /* MoviesLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65905A4C2ABEB53D0071D1D3 /* MoviesLoaderTests.swift */; };
 		65905A502ABEB7ED0071D1D3 /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65905A452ABEAFF30071D1D3 /* ArrayTests.swift */; };
 		65905A582ABECA0B0071D1D3 /* MovieQuizUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65905A572ABECA0B0071D1D3 /* MovieQuizUITests.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		655E49EB2AC4CED600825223 /* MovieQuizViewControllerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizViewControllerMock.swift; sourceTree = "<group>"; };
 		65905A432ABEAFF30071D1D3 /* MovieQuizTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieQuizTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65905A452ABEAFF30071D1D3 /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		65905A4C2ABEB53D0071D1D3 /* MoviesLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesLoaderTests.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				65905A452ABEAFF30071D1D3 /* ArrayTests.swift */,
 				65905A4C2ABEB53D0071D1D3 /* MoviesLoaderTests.swift */,
 				65905AB12ABF8C200071D1D3 /* MovieQuizPresenterTest.swift */,
+				655E49EB2AC4CED600825223 /* MovieQuizViewControllerMock.swift */,
 			);
 			path = MovieQuizTests;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 			files = (
 				65905AB22ABF8C200071D1D3 /* MovieQuizPresenterTest.swift in Sources */,
 				65905A4D2ABEB53D0071D1D3 /* MoviesLoaderTests.swift in Sources */,
+				655E49EC2AC4CED600825223 /* MovieQuizViewControllerMock.swift in Sources */,
 				65905A502ABEB7ED0071D1D3 /* ArrayTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
