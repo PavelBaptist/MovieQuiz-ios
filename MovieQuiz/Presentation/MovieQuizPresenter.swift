@@ -24,7 +24,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         viewController.showLoadingIndicator()
     }
 
-    // MARK: Public methods
+    // MARK: - Public methods
     func yesButtonClicked() {
         didAnswer(isYes: true)
     }
