@@ -1,8 +1,14 @@
-import Foundation
 import UIKit
 
 class AlertPresenter {
-    func show(in vc: UIViewController, model: AlertModel) {
+    weak var delegate: UIViewController?
+    
+    init(delegate: UIViewController) {
+        self.delegate = delegate
+    }
+    
+    func show(model: AlertModel) {
+        guard let delegate = delegate else { return }
         let alert = UIAlertController(
             title: model.title,
             message: model.message,
@@ -15,6 +21,6 @@ class AlertPresenter {
 
         alert.addAction(action)
 
-        vc.present(alert, animated: true, completion: nil)
+        delegate.present(alert, animated: true, completion: nil)
     }
 }
