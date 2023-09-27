@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizPresenter: QuestionFactoryDelegate {
+final class MovieQuizPresenter: MovieQuizPresenterProtocol, QuestionFactoryDelegate{
     // MARK: - Privates properties
     private let statisticService: StatisticService!
     private let alertPresenter: AlertPresenter!

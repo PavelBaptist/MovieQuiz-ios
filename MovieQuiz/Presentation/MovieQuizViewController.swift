@@ -11,7 +11,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet private var noButton: UIButton!
     
     // MARK: - Privates properties
-    private var presenter: MovieQuizPresenter!
+    private var presenter: MovieQuizPresenterProtocol!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
