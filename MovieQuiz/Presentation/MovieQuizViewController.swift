@@ -9,7 +9,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     @IBOutlet private var yesButton: UIButton!
     @IBOutlet private var noButton: UIButton!
-
+    
     // MARK: - Privates properties
     private var presenter: MovieQuizPresenter!
     
@@ -21,16 +21,20 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         
         imageView.layer.cornerRadius = 20
     }
-
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     // MARK: - IB Actions
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
         presenter.yesButtonClicked()
     }
-
+    
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         presenter.noButtonClicked()
     }
-
+    
     // MARK: - Public methods
     func show(quiz step: QuizStepViewModel) {
         imageView.layer.borderColor = UIColor.clear.cgColor
@@ -38,18 +42,23 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
     }
-
+    
     func highlightImageBorder(isCorrectAnswer: Bool) {
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
     }
-
+    
+    func isEnabledButtons(enabled: Bool){
+        yesButton.isEnabled = enabled
+        noButton.isEnabled = enabled
+    }
+    
     func showLoadingIndicator() {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
-
+    
     func hideLoadingIndicator() {
         activityIndicator.isHidden = true
     }

@@ -7,4 +7,6 @@ protocol MovieQuizViewControllerProtocol: AnyObject, UIViewController {
     
     func showLoadingIndicator()
     func hideLoadingIndicator()
+    
+    func isEnabledButtons(enabled: Bool)
 }

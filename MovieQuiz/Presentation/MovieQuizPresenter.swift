@@ -46,6 +46,8 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         guard let currentQuestion = currentQuestion else {
             return
         }
+        
+        viewController?.isEnabledButtons(enabled: false)
 
         let givenAnswer = isYes
 
@@ -162,10 +164,11 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         guard let question = question else {
             return
         }
-
+        
         currentQuestion = question
         let viewModel = convert(model: question)
         DispatchQueue.main.async{ [weak self] in
+            self?.viewController?.isEnabledButtons(enabled: true)
             self?.viewController?.show(quiz: viewModel)
         }
     }
