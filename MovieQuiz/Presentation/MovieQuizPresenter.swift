@@ -4,7 +4,8 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     private let statisticService: StatisticService!
     private var questionFactory: QuestionFactoryProtocol?
     private weak var viewController: MovieQuizViewControllerProtocol?
-
+    private var alertPresenter: AlertPresenter!
+    
     private var currentQuestion: QuizQuestion?
     private let questionsAmount: Int = 10
     private var currentQuestionIndex: Int = 0
@@ -14,7 +15,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         self.viewController = viewController
 
         statisticService = StatisticServiceImplementation()
-
+        alertPresenter = AlertPresenter(delegate: viewController)
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         questionFactory?.loadData()
         viewController.showLoadingIndicator()
@@ -29,7 +30,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
 
     func didFailToLoadData(with error: Error) {
         let message = error.localizedDescription
-        viewController?.showNetworkError(message: message)
+        showNetworkErrorAlert(message: message)
     }
 
     func didReceiveNextQuestion(question: QuizQuestion?) {
@@ -111,13 +112,42 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
                 title: "Этот раунд окончен!",
                 text: text,
                 buttonText: "Сыграть ещё раз")
-                viewController?.show(quiz: viewModel)
+                showResultAlert(quiz: viewModel)
         } else {
             self.switchToNextQuestion()
             questionFactory?.requestNextQuestion()
         }
     }
 
+    func showResultAlert(quiz result: QuizResultsViewModel) {
+        guard let viewController = viewController else { return }
+        viewController.hideLoadingIndicator()
+        
+        let message = makeResultsMessage()
+        
+        let alert = AlertModel(
+            title: result.title, message: message, buttonText: result.buttonText) { [weak self] in
+                guard let self = self else { return }
+                
+                self.restartGame()
+            }
+        alertPresenter.show(model: alert)
+    }
+    
+    func showNetworkErrorAlert(message: String) {
+        guard let viewController = viewController else { return }
+        viewController.hideLoadingIndicator()
+ 
+        let alert = AlertModel(
+            title: "Ошибка", message: message, buttonText: "Попробовать ещё раз") { [weak self] in
+                guard let self = self else { return }
+                
+                self.restartGame()
+            }
+        alertPresenter.show(model: alert)
+        
+    }
+    
     func makeResultsMessage() -> String {
         statisticService.store(correct: correctAnswers, total: questionsAmount)
 

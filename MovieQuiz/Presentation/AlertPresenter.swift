@@ -1,9 +1,9 @@
 import UIKit
 
 class AlertPresenter {
-    weak var delegate: UIViewController?
+    weak var delegate: MovieQuizViewControllerProtocol?
     
-    init(delegate: UIViewController) {
+    init(delegate: MovieQuizViewControllerProtocol) {
         self.delegate = delegate
     }
     

@@ -9,14 +9,13 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet private var noButton: UIButton!
 
     private var presenter: MovieQuizPresenter!
-    private var alertPresenter: AlertPresenter!
+    
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         presenter = MovieQuizPresenter(viewController: self)
-        alertPresenter = AlertPresenter(delegate: self)
         
         imageView.layer.cornerRadius = 20
     }
@@ -40,18 +39,6 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         counterLabel.text = step.questionNumber
     }
 
-    func show(quiz result: QuizResultsViewModel) {
-        let message = presenter.makeResultsMessage()
-        
-        let alert = AlertModel(
-            title: result.title, message: message, buttonText: result.buttonText) { [weak self] in
-                guard let self = self else { return }
-                
-                self.presenter.restartGame()
-            }
-        alertPresenter.show(model: alert)
-    }
-
     func highlightImageBorder(isCorrectAnswer: Bool) {
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
@@ -65,19 +52,6 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
 
     func hideLoadingIndicator() {
         activityIndicator.isHidden = true
-    }
-
-    func showNetworkError(message: String) {
-        hideLoadingIndicator()
- 
-        let alert = AlertModel(
-            title: "Ошибка", message: message, buttonText: "Попробовать ещё раз") { [weak self] in
-                guard let self = self else { return }
-                
-                self.presenter.restartGame()
-            }
-        alertPresenter.show(model: alert)
-        
     }
     
 }
