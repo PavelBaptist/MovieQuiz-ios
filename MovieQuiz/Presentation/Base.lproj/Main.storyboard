@@ -26,7 +26,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="UiJ-pO-DQr">
-                                <rect key="frame" x="20" y="58" width="374" height="832.5"/>
+                                <rect key="frame" x="20" y="58" width="374" height="804"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Edj-oT-RAj">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="23.5"/>
@@ -55,10 +55,10 @@
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lax-iy-dyu">
-                                        <rect key="frame" x="0.0" y="624.5" width="374" height="128"/>
+                                        <rect key="frame" x="0.0" y="624.5" width="374" height="99.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг этого фильма меньше чем 5?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oa5-Vk-7ij" userLabel="Question Label">
-                                                <rect key="frame" x="20" y="5" width="334" height="118"/>
+                                                <rect key="frame" x="20" y="5" width="334" height="89.5"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="20"/>
                                                 <color key="textColor" name="YP White"/>
                                                 <nil key="highlightedColor"/>
@@ -72,7 +72,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="BuT-nA-xAA">
-                                        <rect key="frame" x="0.0" y="772.5" width="374" height="60"/>
+                                        <rect key="frame" x="0.0" y="744" width="374" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pEb-Jv-E3c" userLabel="No button">
                                                 <rect key="frame" x="0.0" y="0.0" width="177" height="60"/>
@@ -127,6 +127,7 @@
                         <color key="backgroundColor" name="YP Background"/>
                         <constraints>
                             <constraint firstItem="UiJ-pO-DQr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="9Ni-s8-AQo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="UiJ-pO-DQr" secondAttribute="bottom" id="FUd-gB-ycI"/>
                             <constraint firstItem="UiJ-pO-DQr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Lh0-wt-lxZ"/>
                             <constraint firstItem="5xH-gQ-oMI" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="O2w-7M-IKo"/>
                             <constraint firstItem="5xH-gQ-oMI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kLa-rN-4Cp"/>
